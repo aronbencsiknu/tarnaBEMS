@@ -7,8 +7,6 @@ import numpy as np
 
 import gymnasium as gym
 from gymnasium import logger, spaces
-from gymnasium.envs.classic_control import utils
-from gymnasium.error import DependencyNotInstalled
 
 
 class BEMSEnv(gym.Env[np.ndarray, Union[int, np.ndarray]]):
@@ -87,9 +85,6 @@ class BEMSEnv(gym.Env[np.ndarray, Union[int, np.ndarray]]):
         #self.beta_heating = 2
         #self.beta_heat_conductance = 2
 
-        self.action_space = spaces.Discrete(2)
-        #self.observation_space = spaces.Box(-high, high, dtype=np.float32)
-
         self.counter = 0 # midnight
 
         self.min_external_temp = -10
@@ -115,7 +110,6 @@ class BEMSEnv(gym.Env[np.ndarray, Union[int, np.ndarray]]):
     def _update_external_temp(self, index, min_temp, max_temp, scatter=0.0):
         # compute current outside temperature
         # and forecast temperature
-        #cosine_temp = math.cos(index/229)*-((max_temp-min_temp)/2)+(min_temp-((max_temp-min_temp)/2))
 
         cosine_temp = (math.cos(index/229)*((max_temp-min_temp)/2))+((max_temp-min_temp)/2)+min_temp
         current_temp = cosine_temp + random.uniform(-scatter/2, scatter/2)

@@ -1,14 +1,3 @@
-'''rom environment import BEMSEnv
-import time
-
-env = BEMSEnv(initial_desired_temp=25)
-while (True):
-    obs = env.step(True)
-
-    print(obs)
-
-    time.sleep(0.01)'''
-
 import gymnasium as gym
 
 from stable_baselines3 import PPO

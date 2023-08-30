@@ -71,12 +71,12 @@ class BEMSEnv(gym.Env[np.ndarray, Union[int, np.ndarray]]):
 
         self.counter += 1
 
-        return observation, reward, terminated, False, {}
+        return np.array(observation, dtype=np.float32), reward, terminated, False, {}
 
     def reset(self, seed: Optional[int] = None, options: Optional[dict] = None):
         super().reset(seed=seed)
 
-        self.desired_temp = 20
+        self.desired_temp = 22
         self.heating = False
 
         self.heating_temp = 40
@@ -94,7 +94,7 @@ class BEMSEnv(gym.Env[np.ndarray, Union[int, np.ndarray]]):
 
         observation = [self.temp, self.external_temp, self.heating]
 
-        return observation, {}
+        return np.array(observation, dtype=np.float32), {}
 
     def render(self):
         pass
@@ -111,6 +111,7 @@ class BEMSEnv(gym.Env[np.ndarray, Union[int, np.ndarray]]):
         # compute current outside temperature
         # and forecast temperature
 
+        # a day is 1440 minutes. 1440 / 2pi is roughly 229. This way, one step in var:index is approx. 1 minute
         cosine_temp = (math.cos(index/229)*((max_temp-min_temp)/2))+((max_temp-min_temp)/2)+min_temp
         current_temp = cosine_temp + random.uniform(-scatter/2, scatter/2)
 
